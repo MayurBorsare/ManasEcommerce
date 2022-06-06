@@ -1,48 +1,38 @@
-const app = require('./app');
+const app = require("./app");
+const cloudinary = require("cloudinary");
+const connectDatabase = require("./config/database");
+
+// Handling Uncaught Exception
+process.on("uncaughtException", (err) => {
+  console.log(`Error: ${err.message}`);
+  console.log(`Shutting down the server due to Uncaught Exception`);
+  process.exit(1);
+});
 
 // Config
 if (process.env.NODE_ENV !== "PRODUCTION") {
   require("dotenv").config({ path: "backend/config/config.env" });
 }
 
-const connectDatabase = require("./config/database");
-const cloudinary= require("cloudinary");
-
-
-// Handling Uncaught Exception
-process.on("uncaughtException", (err) => {
-    console.log(`Error: ${err.message}`);
-    console.log(`Shutting down the server due to Uncaught Exception`);
-    process.exit(1);
-});
-
-
-// // Config
-// if (process.env.NODE_ENV !== "PRODUCTION") {
- //   require("dotenv").config({ path: "backend/config/config.env" });
-  // }
-
-// Connect to database 
+// Connecting to database
 connectDatabase();
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
-  // secure:true,
 });
 
-const server = app.listen(process.env.PORT || 4000, () => {
+const server = app.listen(process.env.PORT, () => {
   console.log(`Server is working on http://localhost:${process.env.PORT}`);
 });
 
-
-// Unhandles Promise Rejection   error like database link not right  error
+// Unhandled Promise Rejection
 process.on("unhandledRejection", (err) => {
-    console.log(`Error: ${err.message}`);
-    console.log(`Shutting down the server due to Unhandled Promise Rejection`);
-  
-    server.close(() => {
-      process.exit(1);
-    });
+  console.log(`Error: ${err.message}`);
+  console.log(`Shutting down the server due to Unhandled Promise Rejection`);
+
+  server.close(() => {
+    process.exit(1);
   });
+});
