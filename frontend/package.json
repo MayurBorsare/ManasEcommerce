@@ -46,7 +46,7 @@
   },
   "devDependencies": {
     "@svgr/webpack": "^6.2.1",
-    "react-scripts": "^5.0.0"
+    "react-scripts": "^5.0.1"
   },
   "overrides": {
     "@svgr/webpack": "^6.2.1"
