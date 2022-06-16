@@ -27,9 +27,9 @@ const Home = () => {
         <Fragment>
             {loading ? <Loader /> : (
                 <Fragment>
-                <MetaData title={"ECOMMERCE"}/>
+                <MetaData title={" M.A.N.A.S "}/>
                 <div className="banner">
-                    <p> Welcome to Ecommerce</p>
+                    <p> Welcome to MANAS</p>
                     <h1>FIND AMAZING PRODUCTS BELOW</h1>
     
                     <a href="#container">
