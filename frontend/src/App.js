@@ -52,21 +52,17 @@ function App() {
 
   const { isAuthenticated, user } = useSelector((state) => state.user);
 
-   //const [stripeApiKey, setStripeApiKey] = useState("");
+  const [stripeApiKey, setStripeApiKey] = useState("");
 
-  //  async function getStripeApiKey() {
-  //    const { data } = await axios.get("/api/v1/stripeapikey");
+  async function getStripeApiKey() {
+    const { data } = await axios.get("/api/v1/stripeapikey");
 
-  //    setStripeApiKey(data.stripeApiKey);
-  //  }
+    setStripeApiKey(data.stripeApiKey);
+  }
 
-    // const {pathname}=window.location;
-    // let HideHeader=(pathname==='/payment/process' ? null : <NotFound />)
-    // console.log(HideHeader);
+   // const stripeApiKey="pk_test_51K6CEsSCqGKG0ElciVBVUmdZmkmrUD8InXevKHOs0583Wwuoa4EeMxu6zKrfIUMWJPIfAJLwWyiooTqRSP1Av3Xa00zELhVg4Y";
 
-    const stripeApiKey="pk_test_51K6CEsSCqGKG0ElciVBVUmdZmkmrUD8InXevKHOs0583Wwuoa4EeMxu6zKrfIUMWJPIfAJLwWyiooTqRSP1Av3Xa00zELhVg4Y";
-
-    const stripePromise=loadStripe(stripeApiKey)
+  //  const stripePromise=loadStripe(stripeApiKey)
 
   useEffect(() => {
     WebFont.load({
