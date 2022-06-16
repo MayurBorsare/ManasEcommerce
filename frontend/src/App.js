@@ -62,7 +62,7 @@ function App() {
 
    // const stripeApiKey="pk_test_51K6CEsSCqGKG0ElciVBVUmdZmkmrUD8InXevKHOs0583Wwuoa4EeMxu6zKrfIUMWJPIfAJLwWyiooTqRSP1Av3Xa00zELhVg4Y";
 
-   const stripePromise=loadStripe(stripeApiKey)
+   //const stripePromise=loadStripe(stripeApiKey)
 
   useEffect(() => {
     WebFont.load({
@@ -74,7 +74,7 @@ function App() {
     // store.dispatch(loadUSer());
     store.dispatch(loadUser());
     
-    //getStripeApiKey();
+    getStripeApiKey();
 
   }, []);
 
@@ -88,11 +88,9 @@ function App() {
 
 
       {stripeApiKey && (
-        <Elements stripe={stripePromise}>
-           <Routes>
-              <Route exact path="/payment/process" element={<ProtectedRoute><Payment/></ProtectedRoute>}/>
-          </Routes>
-        </Elements>
+        <Elements stripe={loadStripe(stripeApiKey)}>
+        <ProtectedRoute exact path="/process/payment" component={Payment} />
+      </Elements>
       )}
 
       <Routes>
