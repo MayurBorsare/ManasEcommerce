@@ -20,9 +20,13 @@ import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import { createOrder, clearErrors } from "../../actions/orderAction";
 import {useNavigate} from "react-router";
 
-const Payment = ({ history }) => {
+const Payment = () => {
+
+  const history=useNavigate();
   const orderInfo = JSON.parse(sessionStorage.getItem("orderInfo"));
 
+
+  
   const dispatch = useDispatch();
   const alert = useAlert();
   const stripe = useStripe();
@@ -57,8 +61,9 @@ const Payment = ({ history }) => {
           "Content-Type": "application/json",
         },
       };
+      
       const { data } = await axios.post(
-        "/api/v1/payment/process",
+        "http://localhost:4000/api/v1/payment/process",
         paymentData,
         config
       );
@@ -96,15 +101,15 @@ const Payment = ({ history }) => {
           };
 
           dispatch(createOrder(order));
+          history("/success")
 
-          history.push("/success");
         } else {
           alert.error("There's some issue while processing payment ");
         }
       }
     } catch (error) {
       payBtn.current.disabled = false;
-      alert.error(error.response.data.message);
+      alert.error(error.response);
     }
   };
 
@@ -113,14 +118,15 @@ const Payment = ({ history }) => {
       alert.error(error);
       dispatch(clearErrors());
     }
-  }, [dispatch, error, alert]);
+  }, [dispatch,alert,error]);
 
   return (
     <Fragment>
       <MetaData title="Payment" />
+      <div className="payment">
       <CheckoutSteps activeStep={2} />
       <div className="paymentContainer">
-        <form className="paymentForm" onSubmit={(e) => submitHandler(e)}>
+        <form className="paymentForm" onSubmit={(e) => submitHandler(e)} method="post">
           <Typography>Card Info</Typography>
           <div>
             <CreditCardIcon />
@@ -142,6 +148,7 @@ const Payment = ({ history }) => {
             className="paymentFormBtn"
           />
         </form>
+      </div>
       </div>
     </Fragment>
   );

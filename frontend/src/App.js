@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 //import Header from "./component/layout/Header/Header";
 import HeaderOne from "./component/layout/Header/HeaderOne";
 import WebFont from "webfontloader";
-import { useEffect, useState} from "react";
+import { useEffect} from "react";
 import Footer from "./component/layout/Footer/Footer";
 import Home from "./component/Home/Home";
 import ProductDetails from "./component/Product/ProductDetails";
@@ -25,7 +25,7 @@ import ResetPassword from "./component/User/ResetPassword";
 import Cart from "./component/Cart/Cart";
 import Shipping from "./component/Cart/Shipping";
 import ConfirmOrder from "./component/Cart/ConfirmOrder";
-import axios from "axios";
+//import axios from "axios";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import Payment from "./component/Cart/Payment";
@@ -52,17 +52,21 @@ function App() {
 
   const { isAuthenticated, user } = useSelector((state) => state.user);
 
-  const [stripeApiKey, setStripeApiKey] = useState("");
+   //const [stripeApiKey, setStripeApiKey] = useState("");
 
-  async function getStripeApiKey() {
-    const { data } = await axios.get("/api/v1/stripeapikey");
+  //  async function getStripeApiKey() {
+  //    const { data } = await axios.get("/api/v1/stripeapikey");
 
-    setStripeApiKey(data.stripeApiKey);
-  }
+  //    setStripeApiKey(data.stripeApiKey);
+  //  }
 
-   // const stripeApiKey="pk_test_51K6CEsSCqGKG0ElciVBVUmdZmkmrUD8InXevKHOs0583Wwuoa4EeMxu6zKrfIUMWJPIfAJLwWyiooTqRSP1Av3Xa00zELhVg4Y";
+    // const {pathname}=window.location;
+    // let HideHeader=(pathname==='/payment/process' ? null : <NotFound />)
+    // console.log(HideHeader);
 
-   //const stripePromise=loadStripe(stripeApiKey)
+    const stripeApiKey="pk_test_51K6CEsSCqGKG0ElciVBVUmdZmkmrUD8InXevKHOs0583Wwuoa4EeMxu6zKrfIUMWJPIfAJLwWyiooTqRSP1Av3Xa00zELhVg4Y";
+
+    const stripePromise=loadStripe(stripeApiKey)
 
   useEffect(() => {
     WebFont.load({
@@ -74,7 +78,7 @@ function App() {
     // store.dispatch(loadUSer());
     store.dispatch(loadUser());
     
-    getStripeApiKey();
+    //getStripeApiKey();
 
   }, []);
 
@@ -88,9 +92,11 @@ function App() {
 
 
       {stripeApiKey && (
-        <Elements stripe={loadStripe(stripeApiKey)}>
-        <ProtectedRoute exact path="/process/payment" component={Payment} />
-      </Elements>
+        <Elements stripe={stripePromise}>
+           <Routes>
+              <Route exact path="/payment/process" element={<ProtectedRoute><Payment/></ProtectedRoute>}/>
+          </Routes>
+        </Elements>
       )}
 
       <Routes>

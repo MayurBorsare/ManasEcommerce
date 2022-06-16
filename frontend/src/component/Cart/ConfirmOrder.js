@@ -5,10 +5,12 @@ import MetaData from "../layout/MetaData";
 import "./ConfirmOrder.css";
 import { Link } from "react-router-dom";
 import { Typography } from "@material-ui/core";
+import { useNavigate } from "react-router";
 
-const ConfirmOrder = ({ history }) => {
-  const { shippingInfo, cartItems } = useSelector((state) => state.cart);
+const ConfirmOrder = () => {
+  const history = useNavigate();
   const { user } = useSelector((state) => state.user);
+  const { shippingInfo, cartItems } = useSelector((state) => state.cart);
 
   const subtotal = cartItems.reduce(
     (acc, item) => acc + item.quantity * item.price,
@@ -33,12 +35,13 @@ const ConfirmOrder = ({ history }) => {
 
     sessionStorage.setItem("orderInfo", JSON.stringify(data));
 
-    history.push("/process/payment");
+    history("/payment/process");
   };
 
   return (
-    <Fragment>
+<Fragment>
       <MetaData title="Confirm Order" />
+      <div className="Corder">
       <CheckoutSteps activeStep={1} />
       <div className="confirmOrderPage">
         <div>
@@ -108,8 +111,9 @@ const ConfirmOrder = ({ history }) => {
           </div>
         </div>
       </div>
-    </Fragment>
-  );
+      </div>
+    </Fragment>  
+    );
 };
 
 export default ConfirmOrder;
