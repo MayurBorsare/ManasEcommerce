@@ -25,7 +25,7 @@ import ResetPassword from "./component/User/ResetPassword";
 import Cart from "./component/Cart/Cart";
 import Shipping from "./component/Cart/Shipping";
 import ConfirmOrder from "./component/Cart/ConfirmOrder";
-//import axios from "axios";
+import axios from "axios";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import Payment from "./component/Cart/Payment";
@@ -62,7 +62,7 @@ function App() {
 
    // const stripeApiKey="pk_test_51K6CEsSCqGKG0ElciVBVUmdZmkmrUD8InXevKHOs0583Wwuoa4EeMxu6zKrfIUMWJPIfAJLwWyiooTqRSP1Av3Xa00zELhVg4Y";
 
-  //  const stripePromise=loadStripe(stripeApiKey)
+   const stripePromise=loadStripe(stripeApiKey)
 
   useEffect(() => {
     WebFont.load({
